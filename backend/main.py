@@ -7,7 +7,7 @@ import os
 
 app = FastAPI(title="Hotel Management API", lifespan=lifespan)
 
-origins = [ os.getenv("FRONTEND_URL") ]  # set this in Render to frontend URL
+origins = [ os.getenv("FRONTEND_URL") ]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
