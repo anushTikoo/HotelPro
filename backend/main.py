@@ -7,10 +7,9 @@ import os
 
 app = FastAPI(title="Hotel Management API", lifespan=lifespan)
 
-origins = [ os.getenv("FRONTEND_URL") ]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:5173"],
     allow_origin_regex=r"https://.*\.hotelpro\.pages\.dev",
     allow_credentials=True,
     allow_methods=["*"],
@@ -30,3 +29,5 @@ def root():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run("main:app", host="0.0.0.0", port=port)
+
+print(os.getenv("FRONTEND_URL"))
