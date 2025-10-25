@@ -77,9 +77,9 @@ function EditAddRoom() {
     <>
       <Header />
       <ToastContainer autoClose={2500} position="top-center" />
-      <main className="fixed inset-0 top-20 bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 flex items-center justify-center px-4 overflow-hidden">
+      <main className="fixed inset-0 top-20 bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 flex items-center justify-center px-4">
 
-        <div className="max-w-xl w-full bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+        <div className="max-w-xl w-full bg-white/95 rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
 
           <div className="bg-gradient-to-r from-teal-600 to-emerald-600 p-4 text-white">
             <h2 className="text-2xl font-bold flex items-center gap-2">

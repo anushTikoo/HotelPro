@@ -51,11 +51,11 @@ function Login() {
     <>
       <Header />
       <main className="relative w-full h-screen">
+        <ToastContainer position="top-center" autoClose={2500}/>
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}></div>
         <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-teal-900/40"></div>
 
         <div className="absolute top-2/5 mt-10 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col w-96 bg-white/95 backdrop-blur-md items-center rounded-2xl shadow-2xl border border-gray-200 p-8 hover:shadow-teal-500/20 transition-all duration-500">
-
           <div className="mb-8 text-center">
             <h2 className="text-3xl font-bold bg-gradient-to-r from-teal-700 to-emerald-600 bg-clip-text text-transparent">
               Welcome Back
@@ -105,8 +105,6 @@ function Login() {
             </Link>
           </div>
         </div>
-
-        <ToastContainer position="top-center" autoClose={2500}/>
       </main>
     </>
   );

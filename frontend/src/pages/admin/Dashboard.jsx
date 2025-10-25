@@ -36,9 +36,7 @@ function Dashboard() {
 
   useEffect(() => {
     if (error) {
-      if (!toast.isActive(1)) {
-        toast.error("Unexpected Error", { toastId: 1 });
-      }
+      if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
     }
   }, [error]);
 
@@ -70,11 +68,6 @@ function Dashboard() {
     setBookings(res.data);
   };
 
-  const COLORS = {
-    occupied: "#0d9488",
-    unoccupied: "#ff474c",
-  };
-
   const showOccupancy = () => (
     <ResponsiveContainer width="100%" height={400}>
       <PieChart>
@@ -90,8 +83,8 @@ function Dashboard() {
           paddingAngle={5}
           dataKey="value"
         >
-          <Cell fill={COLORS.occupied} />
-          <Cell fill={COLORS.unoccupied} />
+          <Cell fill="#0d9488" />
+          <Cell fill="#ff474c" />
         </Pie>
         <Tooltip
           contentStyle={{
@@ -233,13 +226,13 @@ function Dashboard() {
             </h1>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-3 gap-6 mb-8">
             <div
               onClick={() => setCurrentGraph("occupancy")}
               className={`group cursor-pointer transition-all duration-300 hover:-translate-y-2 ${
                 currentGraph === "occupancy"
                   ? "bg-gradient-to-br from-teal-600 to-emerald-600 text-white shadow-2xl shadow-teal-500/50 scale-105"
-                  : "bg-white/95 backdrop-blur-md text-gray-800 shadow-lg hover:shadow-xl"
+                  : "bg-white/95 text-gray-800 shadow-lg hover:shadow-xl"
               } rounded-2xl p-6 border-2 ${
                 currentGraph === "occupancy"
                   ? "border-teal-400"
@@ -335,7 +328,7 @@ function Dashboard() {
               className={`group cursor-pointer transition-all duration-300 hover:-translate-y-2 ${
                 currentGraph === "bookings"
                   ? "bg-gradient-to-br from-emerald-600 to-teal-600 text-white shadow-2xl shadow-blue-500/50 scale-105"
-                  : "bg-white/95 backdrop-blur-md text-gray-800 shadow-lg hover:shadow-xl"
+                  : "bg-white/95 text-gray-800 shadow-lg hover:shadow-xl"
               } rounded-2xl p-6 border-2 ${
                 currentGraph === "bookings"
                   ? "border-emerald-400"
@@ -377,7 +370,7 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-gray-200 p-8">
+          <div className="bg-white/95 rounded-2xl shadow-xl border border-gray-200 p-8">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
               {currentGraph === "occupancy" && (
                 <>

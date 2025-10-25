@@ -1,6 +1,6 @@
 import Header from "../../components/Header";
 import { useState, useEffect } from "react";
-import Roomcard from "../../components/Roomcard";
+import RoomCard from "../../components/RoomCard";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { Circles } from "react-loading-icons";
@@ -45,7 +45,7 @@ function SearchResults() {
         } py-8`}
       >
         <ToastContainer position="top-center" autoClose={2500} />
-        <div className="backdrop-blur-md bg-white/80 rounded-2xl shadow-xl border border-gray-200/60 p-6 mb-4 mx-4 lg:mx-auto max-w-7xl flex place-content-between items-center w-4/5 gap-6">
+        <div className="bg-white/80 rounded-2xl shadow-xl border border-gray-200/60 p-6 mb-4 mx-4 lg:mx-auto max-w-7xl flex place-content-between items-center w-4/5 gap-6">
           <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-700 to-emerald-600 bg-clip-text text-transparent">
             Filters:
           </h2>
@@ -146,7 +146,7 @@ function SearchResults() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-4/5 max-w-7xl">
               {rooms.map((room) => (
-                <Roomcard
+                <RoomCard
                   key={room.id}
                   room_no={room.room_no}
                   room_type={room.type}

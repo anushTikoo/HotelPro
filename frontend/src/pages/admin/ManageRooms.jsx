@@ -108,7 +108,7 @@ const ManageRooms = () => {
             </Link>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 ">
             <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200 px-8 py-4">
               <AdminRoomCard
                 no="Room No."

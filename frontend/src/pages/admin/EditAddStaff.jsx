@@ -80,11 +80,10 @@ function EditAddStaff() {
     <>
       <Header />
       <ToastContainer autoClose={2500} position="top-center" />
-      <main className="fixed inset-0 top-20 bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 flex items-center justify-center px-4 overflow-hidden">
+      <main className="fixed inset-0 top-20 bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 flex items-center justify-center px-4 ">
 
         <div className="max-w-xl w-full bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
 
-          {/* Header */}
           <div className="bg-gradient-to-r from-teal-600 to-emerald-600 p-4 text-white">
             <h2 className="text-2xl font-bold flex items-center gap-2">
               <FaUserTie className="w-5 h-5" />
@@ -92,10 +91,8 @@ function EditAddStaff() {
             </h2>
           </div>
 
-          {/* Form */}
           <div className="p-5 space-y-4">
 
-            {/* Name */}
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">
                 Full Name
@@ -112,7 +109,6 @@ function EditAddStaff() {
               </div>
             </div>
 
-            {/* Role */}
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">
                 Role
@@ -129,7 +125,6 @@ function EditAddStaff() {
               </div>
             </div>
 
-            {/* Phone */}
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">
                 Phone Number
@@ -146,7 +141,6 @@ function EditAddStaff() {
               </div>
             </div>
 
-            {/* Shift */}
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-2">
                 Work Shift
@@ -188,7 +182,6 @@ function EditAddStaff() {
               </div>
             </div>
 
-            {/* Buttons */}
             <div className="space-y-2 pt-2">
               <button
                 onClick={() => (action === "edit" ? handleEdit(id) : handleAdd())}

@@ -10,11 +10,6 @@ async def get_all_staff(db = Depends(get_db)):
     staff = await db.fetch("SELECT * FROM staff ORDER BY name")
     return [dict(s) for s in staff]
 
-@router.get("/{staff_id}")
-async def get_staff(staff_id: int, db = Depends(get_db)):
-    staff = await db.fetchrow("SELECT * FROM staff WHERE id = $1", staff_id)
-    return dict(staff) if staff else None
-
 @router.post("/")
 async def create_staff(staff: StaffCreate, db = Depends(get_db)):
     try:

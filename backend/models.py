@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from datetime import date
 from typing import Optional
 
-# Auth - using username instead of name
 class UserSignup(BaseModel):
     username: str
     password: str
@@ -11,7 +10,6 @@ class UserLogin(BaseModel):
     username: str
     password: str
 
-# Rooms
 class RoomCreate(BaseModel):
     room_no: int
     type: str
@@ -30,7 +28,6 @@ class RoomSearch(BaseModel):
     total_people: int
     type: Optional[str] = None
 
-# Bookings
 class BookingCreate(BaseModel):
     user_id: int
     room_id: int
@@ -38,7 +35,6 @@ class BookingCreate(BaseModel):
     checkout: date
     total_people: int
 
-# Staff
 class StaffCreate(BaseModel):
     name: str
     role: str

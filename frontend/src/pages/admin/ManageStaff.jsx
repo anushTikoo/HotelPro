@@ -66,8 +66,8 @@ function ManageStaff() {
 
   useEffect(() => {
     getStaff();
-    if (action === "edit") toast.success("Staff updated successfully");
-    else if (action === "add") toast.success("Staff added successfully");
+    if (action === "update") toast.success("Staff Updated Successfully");
+    else if (action === "add") toast.success("Staff Added Successfully");
   }, []);
 
   return (

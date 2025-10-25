@@ -26,12 +26,12 @@ function BookingConfirm() {
 
   const { user } = useContext(AuthContext);
 
-  const formatDate = (date, separator = "-") => {
+  const formatDate = (date) => {
     const d = new Date(date);
     const yyyy = d.getFullYear();
     const mm = String(d.getMonth() + 1).padStart(2, "0");
     const dd = String(d.getDate()).padStart(2, "0");
-    return `${yyyy}${separator}${mm}${separator}${dd}`;
+    return `${yyyy}-${mm}-${dd}`;
   };
 
   const checkIn = new Date(data?.checkIn);
@@ -82,7 +82,7 @@ function BookingConfirm() {
                 </p>
               </div>
             </div>
-            <div className="text-right relative z-10">
+            <div className="text-right relative">
               <p className="text-xs text-teal-100 font-medium">Per Night</p>
               <p className="text-xl font-bold flex items-center justify-end drop-shadow-md">
                 <FaRupeeSign className="w-4 h-4" />
@@ -167,7 +167,7 @@ function BookingConfirm() {
               <div>
                 <p className="text-sm text-gray-600 font-semibold">Total Amount</p>
                 <p className="text-xs text-gray-500">
-                  ₹{room_price} × {nights} {nights === 1 ? "night" : "nights"}
+                  ₹{room_price} x {nights} {nights === 1 ? "night" : "nights"}
                 </p>
               </div>
               <p className="text-2xl font-bold text-gray-800 flex items-center gap-1">
@@ -178,11 +178,11 @@ function BookingConfirm() {
 
             <button
               onClick={handleConfirm}
-              className="group relative w-full cursor-pointer overflow-hidden bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 text-white font-bold text-lg py-5 rounded-xl shadow-2xl hover:shadow-amber-500/50 hover:scale-[1.03] active:scale-[0.97] flex items-center justify-center gap-3 transition-all duration-300 border-2 border-amber-300"
+              className="group relative w-full cursor-pointer bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 text-white font-bold text-lg py-5 rounded-xl shadow-2xl hover:shadow-amber-500/50 hover:scale-[1.03] active:scale-[0.97] flex items-center justify-center gap-3 transition-all duration-300 border-2 border-amber-300"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
 
-              <MdVerified className="w-6 h-6 group-hover:rotate-[360deg] group-hover:scale-125 transition-all duration-500 relative z-10 drop-shadow-lg" />
+              <MdVerified className="w-6 h-6 group-hover:rotate-[360deg] group-hover:scale-125 transition-all duration-500 relative drop-shadow-lg" />
               <span className="relative z-10 drop-shadow-lg tracking-wide">CONFIRM BOOKING</span>
             </button>
 

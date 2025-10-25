@@ -38,21 +38,21 @@ function Header() {
               <div className="flex gap-6">
                 <Link
                   to="/admin/managerooms"
-                  className="px-6 py-2.5 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold hover:bg-white/30 hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg hover:shadow-white/20"
+                  className="px-6 py-2.5 rounded-xl bg-white/20 border border-white/30 text-white font-semibold hover:bg-white/30 hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg hover:shadow-white/20"
                 >
                   Manage Rooms
                 </Link>
 
                 <Link
                   to="/admin/managestaff"
-                  className="px-6 py-2.5 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold hover:bg-white/30 hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg hover:shadow-white/20"
+                  className="px-6 py-2.5 rounded-xl bg-white/20 border border-white/30 text-white font-semibold hover:bg-white/30 hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg hover:shadow-white/20"
                 >
                   Manage Staff
                 </Link>
 
                 <Link
                   to="/admin/manageguests"
-                  className="px-6 py-2.5 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold hover:bg-white/30 hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg hover:shadow-white/20"
+                  className="px-6 py-2.5 rounded-xl bg-white/20 border border-white/30 text-white font-semibold hover:bg-white/30 hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg hover:shadow-white/20"
                 >
                   Manage Guests
                 </Link>
@@ -61,7 +61,7 @@ function Header() {
             <Link
               to="/"
               onClick={logout}
-              className="px-6 py-2.5 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold hover:bg-red-500/80 hover:border-red-400/50 hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg hover:shadow-red-500/30"
+              className="px-6 py-2.5 rounded-xl bg-white/20 border border-white/30 text-white font-semibold hover:bg-red-500/80 hover:border-red-400/50 hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg hover:shadow-red-500/30"
             >
               Logout
             </Link>
@@ -70,7 +70,7 @@ function Header() {
           <div className="flex gap-4 items-center">
             <Link
               to="/signup"
-              className="px-6 py-2.5 rounded-xl border-2 border-white/50 text-white font-semibold hover:bg-white/20 hover:border-white hover:scale-105 transition-all duration-300 active:scale-95 backdrop-blur-sm"
+              className="px-6 py-2.5 rounded-xl border-2 border-white/50 text-white font-semibold hover:bg-white/20 hover:border-white hover:scale-105 transition-all duration-300 active:scale-95"
             >
               Register
             </Link>

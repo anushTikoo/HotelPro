@@ -53,11 +53,11 @@ function Signup() {
     <>
       <Header />
       <main className="relative w-full h-screen">
+        <ToastContainer position="top-center" autoClose={2500}/>
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}></div>
         <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-emerald-900/40"></div>
 
-        <div className="absolute top-2/5 mt-10 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col w-96 bg-white/95 backdrop-blur-md items-center rounded-2xl shadow-2xl border border-gray-200 p-8 hover:shadow-emerald-500/20 transition-all duration-500">
-
+        <div className="absolute top-2/5 mt-10 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col w-96 bg-white/95 items-center rounded-2xl shadow-2xl border border-gray-200 p-8 hover:shadow-emerald-500/20 transition-all duration-500">
           <div className="mb-6 text-center">
             <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-700 bg-clip-text text-transparent">
               Create Account
@@ -117,8 +117,6 @@ function Signup() {
             </Link>
           </div>
         </div>
-
-        <ToastContainer position="top-center" autoClose={2500}/>
       </main>
     </>
   );

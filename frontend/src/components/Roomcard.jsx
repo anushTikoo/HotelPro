@@ -3,7 +3,7 @@ import singleRoomImg from "../assets/single_room.jpg";
 import suiteImg from "../assets/suite.jpg"
 import { Link } from "react-router-dom";
 
-function Roomcard({ room_no, room_type, room_price, room_id }) {
+function RoomCard({ room_no, room_type, room_price, room_id }) {
   const handleType = () => {
     if (room_type === "single") return singleRoomImg;
     else if (room_type === "double") return doubleRoomImg;
@@ -42,4 +42,4 @@ function Roomcard({ room_no, room_type, room_price, room_id }) {
   )
 }
 
-export default Roomcard
+export default RoomCard

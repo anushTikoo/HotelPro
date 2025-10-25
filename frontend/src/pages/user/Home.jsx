@@ -52,11 +52,11 @@ function Home() {
 
         <div className="relative flex flex-col gap-16 justify-center items-center w-full h-full">
 
-          <h1 className="font-extrabold text-white text-8xl drop-shadow-2xl animate-fade-in text-center px-4">
+          <h1 className="font-extrabold text-white text-8xl drop-shadow-2xl animate-fade-in text-center">
             Find Your Next <span className="bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent">Stay</span>...
           </h1>
 
-          <div className="backdrop-blur-sm bg-white/95 rounded-full border-4 border-amber-400 shadow-2xl shadow-amber-500/20 hover:shadow-amber-500/40 transition-all duration-500">
+          <div className="bg-white/95 rounded-full border-4 border-amber-400 shadow-2xl shadow-amber-500/20 hover:shadow-amber-500/40 transition-all duration-500">
             <div className="flex h-15 items-center justify-center text-[#2C2C2C]">
 
               <Datepicker
