@@ -1,6 +1,6 @@
 import Header from "../../components/Header";
 import { useState, useEffect } from "react";
-import RoomCard from "../../components/RoomCard";
+import RoomCard from "../../components/RoomCard.jsx";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { Circles } from "react-loading-icons";
