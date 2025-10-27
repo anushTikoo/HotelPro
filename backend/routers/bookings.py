@@ -26,7 +26,7 @@ async def get_all_bookings(db = Depends(get_db)):
         FROM bookings b
         JOIN users u ON b.user_id = u.id
         JOIN rooms r ON b.room_id = r.id
-        ORDER BY b.checkin
+        ORDER BY r.room_no
         """
     )
     return [dict(b) for b in bookings]

@@ -42,13 +42,11 @@ function EditAddStaff() {
       });
       navigate("/admin/managestaff?action=add");
     } catch (err) {
-      console.error(err);
-      try {
-        if (err.response.status === 400) toast.warn(err.response.data.detail);
-      } catch (err) {
-        console.error(err);
-        if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
-      }
+        if (err.response?.status === 400) toast.warn(err.response.data.detail);
+        else {
+          console.error(err);
+          if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
+        }
     }
   };
 
@@ -66,13 +64,11 @@ function EditAddStaff() {
       });
       navigate("/admin/managestaff?action=update");
     } catch (err) {
-      console.error(err);
-      try {
-        if (err.response.status === 400) toast.warn(err.response.data.detail);
-      } catch (err) {
-        console.error(err);
-        if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
-      }
+        if (err.response?.status === 400) toast.warn(err.response.data.detail);
+        else {
+          console.error(err);
+          if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
+        }
     }
   };
 

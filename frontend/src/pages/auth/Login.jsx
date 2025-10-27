@@ -1,21 +1,27 @@
 import { useContext, useEffect, useState } from "react";
 import Header from "../../components/Header";
-import backgroundImage from "../../assets/backgr.avif"
+import backgroundImage from "../../assets/backgr.avif";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { AuthContext } from "../../auth/Authorization";
 import { FaUser, FaLock } from "react-icons/fa";
+import { Circles } from "react-loading-icons";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const { login, user } = useContext(AuthContext);
 
   useEffect(() => {
+    if (user) {
+      if (user.role === "admin") navigate("/admin/dashboard");
+      else navigate("/guest/home");
+    }
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "auto";
@@ -23,36 +29,41 @@ function Login() {
   }, []);
 
   const handleLogin = async () => {
-    if (!username || !password){
-      if (!toast.isActive(1)) toast.error("Please Fill All Details!", {toastId: 1});
-    }
-    else{
-      try{
+    if (!username || !password) {
+      if (!toast.isActive(1))
+        toast.error("Please Fill All Details!", { toastId: 1 });
+    } else {
+      setLoading(true);
+      try {
         const res = await axios.post(`${API_BASE}/auth/login`, {
-          "username": username,
-          "password": password
-        })
+          username: username,
+          password: password,
+        });
         if (res.data.role === "guest") navigate("/guest/home");
         else navigate("/admin/dashboard");
         login(res.data);
-
-      }catch(err){
-        try{
-          if (err.response.status === 401) toast.error(err.response.data.detail);
-        }catch(err){
+      } catch (err) {
+        if (err.response?.status === 401) {
+          toast.error(err.response.data.detail);
+        } else {
           console.error(err);
-          if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
+          toast.error("Unexpected Error");
         }
-      }
+      } finally{
+          setLoading(false);
+        }
     }
-  }
+  };
 
   return (
     <>
       <Header />
       <main className="relative w-full h-screen">
-        <ToastContainer position="top-center" autoClose={2500}/>
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}></div>
+        <ToastContainer position="top-center" autoClose={2500} />
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+        ></div>
         <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-teal-900/40"></div>
 
         <div className="absolute top-2/5 mt-10 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col w-96 bg-white/95 backdrop-blur-md items-center rounded-2xl shadow-2xl border border-gray-200 p-8 hover:shadow-teal-500/20 transition-all duration-500">
@@ -60,13 +71,15 @@ function Login() {
             <h2 className="text-3xl font-bold bg-gradient-to-r from-teal-700 to-emerald-600 bg-clip-text text-transparent">
               Welcome Back
             </h2>
-            <p className="text-gray-500 text-sm mt-2">Sign in to continue to HotelPro</p>
+            <p className="text-gray-500 text-sm mt-2">
+              Sign in to continue to HotelPro
+            </p>
           </div>
 
           <div className="relative w-full mb-5">
             <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
-              onChange={(e)=>setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               placeholder="Username"
               className="w-full border-2 border-gray-300 focus:border-teal-500 focus:outline-none rounded-xl shadow-sm px-12 py-3 transition-all duration-300 hover:border-teal-400"
             />
@@ -75,7 +88,7 @@ function Login() {
           <div className="relative w-full mb-6">
             <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
-              onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               type="password"
               className="w-full border-2 border-gray-300 focus:border-teal-500 focus:outline-none rounded-xl shadow-sm px-12 py-3 transition-all duration-300 hover:border-teal-400"
@@ -84,9 +97,27 @@ function Login() {
 
           <button
             onClick={handleLogin}
-            className="w-full bg-gradient-to-r from-teal-600 to-teal-700 text-white font-bold rounded-xl py-3.5 hover:from-teal-700 hover:to-teal-800 hover:shadow-xl hover:shadow-teal-500/30 active:scale-[0.98] transition-all duration-300 cursor-pointer shadow-lg"
+            disabled={loading}
+            className={`w-full flex justify-center items-center gap-2 bg-gradient-to-r from-teal-600 to-teal-700 text-white font-bold rounded-xl py-3.5 transition-all duration-300
+    ${
+      loading
+        ? "opacity-70 cursor-not-allowed"
+        : "hover:from-teal-700 hover:to-teal-800 hover:shadow-xl hover:shadow-teal-500/30"
+    }`}
           >
-            Sign In
+            {loading ? (
+              <>
+                <Circles
+                  height="1.5em"
+                  width="1.5em"
+                  stroke="#fff"
+                  strokeWidth={4}
+                />
+                <span>Signing in...</span>
+              </>
+            ) : (
+              "Sign In"
+            )}
           </button>
 
           <div className="flex items-center w-full my-6">

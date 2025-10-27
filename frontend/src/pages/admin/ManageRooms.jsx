@@ -58,12 +58,11 @@ const ManageRooms = () => {
         setRooms((prev) => prev.filter((item) => item.id !== id));
         toast.success(`Room ${no} Deleted Ducessfully`)
       } catch (err) {
-        try {
-          if (err.response.status === 409) toast.error(err.response.data.detail)
-        } catch (err) {
+          if (err.response?.status === 409) toast.error(err.response.data.detail)
+          else {
           toast.error("Unexpected Error");
+          console.error(err);
         }
-        console.error(err);
       }
     }
   };
