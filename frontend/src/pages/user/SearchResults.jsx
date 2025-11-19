@@ -3,7 +3,7 @@ import { useState, useEffect, lazy, Suspense } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
-const RoomCard = lazy(() => import("../../components/RoomCard"));
+const RoomCard = lazy(() => import("../../components/RoomCard.jsx"));
 
 function SearchResults() {
   const [rooms, setRooms] = useState([]);

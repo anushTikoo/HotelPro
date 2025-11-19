@@ -5,9 +5,9 @@ import { FaChartPie, FaMoneyBillWave, FaCalendarCheck } from "react-icons/fa";
 import { MdTrendingUp } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
-const OccupancyChart = lazy(()=> import("../../components/OccupancyChart"));
-const RevenueChart = lazy(()=>import("../../components/RevenueChart"));
-const BookingsChart = lazy(()=>import("../../components/BookingsChart"));
+const OccupancyChart = lazy(()=> import("../../components/OccupancyChart.jsx"));
+const RevenueChart = lazy(()=>import("../../components/RevenueChart.jsx"));
+const BookingsChart = lazy(()=>import("../../components/BookingsChart.jsx"));
 
 function Dashboard() {
   const [occupancyPercentage, setOccupancyPercentage] = useState(null);

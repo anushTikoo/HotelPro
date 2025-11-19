@@ -3,17 +3,17 @@ import { lazy, Suspense } from "react";
 import { AuthContext } from "./auth/Authorization";
 import { useContext } from "react";
 import SearchContextFunc from "./pages/user/SearchContext";
-const Signup = lazy(() => import("./pages/auth/Signup"));
-const Login = lazy(() => import("./pages/auth/Login"));
-const Home = lazy(() => import("./pages/user/Home"));
-const SearchResults = lazy(() => import("./pages/user/SearchResults"));
-const BookingConfirm = lazy(() => import("./pages/user/BookingConfirm"));
-const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
-const ManageGuests = lazy(() => import("./pages/admin/ManageGuests"));
-const ManageStaff = lazy(() => import("./pages/admin/ManageStaff"));
-const EditAddRoom = lazy(() => import("./pages/admin/EditAddRoom"));
-const ManageRooms = lazy(() => import("./pages/admin/ManageRooms"));
-const EditAddStaff = lazy(() => import("./pages/admin/EditAddStaff"));
+const Signup = lazy(() => import("./pages/auth/Signup.jsx"));
+const Login = lazy(() => import("./pages/auth/Login.jsx"));
+const Home = lazy(() => import("./pages/user/Home.jsx"));
+const SearchResults = lazy(() => import("./pages/user/SearchResults.jsx"));
+const BookingConfirm = lazy(() => import("./pages/user/BookingConfirm.jsx"));
+const Dashboard = lazy(() => import("./pages/admin/Dashboard.jsx"));
+const ManageGuests = lazy(() => import("./pages/admin/ManageGuests.jsx"));
+const ManageStaff = lazy(() => import("./pages/admin/ManageStaff.jsx"));
+const EditAddRoom = lazy(() => import("./pages/admin/EditAddRoom.jsx"));
+const ManageRooms = lazy(() => import("./pages/admin/ManageRooms.jsx"));
+const EditAddStaff = lazy(() => import("./pages/admin/EditAddStaff.jsx"));
 
 function ProtectedRoute({ children, adminOnly = false }) {
   const { user } = useContext(AuthContext);
