@@ -2,7 +2,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../auth/Authorization";
 import { useContext } from "react";
 
-function Header() {
+function Header({fetchPriority}) {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -23,6 +23,7 @@ function Header() {
         <img
           src="/images/Logo.avif"
           onClick={handleLogoClick}
+          fetchPriority={fetchPriority || undefined}
           alt="CompanyLogo"
           className="w-40 h-auto cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95"
         />

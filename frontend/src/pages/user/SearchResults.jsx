@@ -40,7 +40,7 @@ function SearchResults() {
 
   return (
     <>
-      <Header />
+      <Header fetchPriority="high" />
       <div
         className={`flex bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 flex-col gap-10 items-center w-full ${
           rooms.length > 6 ? "h-auto" : "min-h-screen"

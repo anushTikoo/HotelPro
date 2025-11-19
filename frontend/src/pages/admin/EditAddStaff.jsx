@@ -74,7 +74,7 @@ function EditAddStaff() {
 
   return (
     <>
-      <Header />
+      <Header fetchPriority="high" />
       <ToastContainer autoClose={2500} position="top-center" />
       <main className="fixed inset-0 top-20 bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 flex items-center justify-center px-4 ">
 

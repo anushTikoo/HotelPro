@@ -41,7 +41,7 @@ function Home() {
 
   return (
     <>
-      <Header />
+      <Header fetchPriority="high" />
       <main className="relative w-full h-screen">
         <ToastContainer position="top-center" autoClose={2500} />
         <img

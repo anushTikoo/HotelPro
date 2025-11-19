@@ -64,7 +64,7 @@ function BookingConfirm() {
 
   return (
     <>
-      <Header />
+      <Header fetchPriority="high" />
       <main className="fixed inset-0 top-20 bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 flex items-center justify-center px-4 overflow-hidden">
         <div className="max-w-xl w-full bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200 overflow-hidden hover:shadow-teal-500/20 transition-all duration-500">
 

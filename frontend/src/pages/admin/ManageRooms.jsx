@@ -85,7 +85,7 @@ const ManageRooms = () => {
 
   return (
     <>
-      <Header />
+      <Header fetchPriority="high" />
       <main className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 py-8">
         <div className="max-w-6xl mx-auto px-6">
           <ToastContainer autoClose={2500} position="top-center" />

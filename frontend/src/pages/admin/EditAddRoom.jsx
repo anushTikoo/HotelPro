@@ -73,7 +73,7 @@ function EditAddRoom() {
 
   return (
     <>
-      <Header />
+      <Header fetchPriority="high" />
       <ToastContainer autoClose={2500} position="top-center" />
       <main className="fixed inset-0 top-20 bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 flex items-center justify-center px-4">
 
@@ -120,7 +120,7 @@ function EditAddRoom() {
                   onClick={() => setType("double")}
                   className={`py-2 px-3 text-sm rounded-lg font-semibold border-2 transition-all duration-300 ${
                     room_type === "double"
-                      ? "bg-gradient-to-r from-teal-600 to-emerald-600 text-white border-teal-600 shadow-md scale-105"
+                      ? "bg-linaer-to-r from-teal-600 to-emerald-600 text-white border-teal-600 shadow-md scale-105"
                       : "bg-gray-100 text-gray-700 border-gray-300 hover:border-teal-400"
                   }`}
                 >

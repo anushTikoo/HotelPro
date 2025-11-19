@@ -74,8 +74,8 @@ function Dashboard() {
 
   return (
     <>
-      <Header />
-      <main className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 py-8">
+      <Header fetchPriority="high" />
+      <main className="min-h-screen bg-lienar-to-br from-slate-50 via-blue-50 to-teal-50 py-8">
         <ToastContainer autoClose={2500} position="top-center" />
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-8">
