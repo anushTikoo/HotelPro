@@ -1,12 +1,10 @@
 import { useEffect, useState, useContext } from "react";
 import Header from "../../components/Header";
-import backgroundImage from "../../assets/backgr.avif";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { AuthContext } from "../../auth/Authorization";
 import { FaUser, FaLock, FaCheckCircle } from "react-icons/fa";
-import { Circles } from "react-loading-icons";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
 
 function Signup() {
@@ -41,7 +39,7 @@ function Signup() {
           console.error(err);
           toast.error("Unexpected Error");
         }
-      } finally{
+      } finally {
         setLoading(false);
       }
     }
@@ -63,10 +61,12 @@ function Signup() {
       <Header />
       <main className="relative w-full h-screen">
         <ToastContainer position="top-center" autoClose={2500} />
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${backgroundImage})` }}
-        ></div>
+        <img
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          src="/images/background.avif"
+          fetchPriority="high"
+          alt="background image"
+        ></img>
         <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-emerald-900/40"></div>
 
         <div className="absolute top-2/5 mt-10 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col w-96 bg-white/95 items-center rounded-2xl shadow-2xl border border-gray-200 p-8 hover:shadow-emerald-500/20 transition-all duration-500">
@@ -119,12 +119,22 @@ function Signup() {
           >
             {loading ? (
               <>
-                <Circles
-                  height="1.5em"
-                  width="1.5em"
-                  stroke="#fff"
-                  strokeWidth={4}
-                />
+                <svg
+                  className="animate-spin h-5 w-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeDasharray="60"
+                    strokeDashoffset="15"
+                    strokeLinecap="round"
+                  />
+                </svg>
                 <span>Creating...</span>
               </>
             ) : (

@@ -1,13 +1,10 @@
-import doubleRoomImg from "../assets/double_room.jpg";
-import singleRoomImg from "../assets/single_room.jpg";
-import suiteImg from "../assets/suite.jpg"
 import { Link } from "react-router-dom";
 
 function RoomCard({ room_no, room_type, room_price, room_id }) {
   const handleType = () => {
-    if (room_type === "single") return singleRoomImg;
-    else if (room_type === "double") return doubleRoomImg;
-    else return suiteImg;
+    if (room_type === "single") return "/images/single_room.avif";
+    else if (room_type === "double") return "/images/double_room.avif";
+    else return "/images/suite.avif";
   }
 
   return (
@@ -22,12 +19,13 @@ function RoomCard({ room_no, room_type, room_price, room_id }) {
 
                 <h2 className="mt-2">
                   <span className="bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent font-extrabold text-2xl">₹{room_price}</span>
-                  <span className="text-gray-500 text-sm opacity-70">/night</span>
+                  <span className="text-gray-600 text-xs opacity-90">/night</span>
                 </h2>
             </div>
 
             <div className="relative overflow-hidden rounded-lg w-33 h-22">
               <img
+                loading = "lazy"
                 className="border border-gray-200 shadow-sm rounded-lg w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 src={handleType()}
                 alt={`${room_type} room`}

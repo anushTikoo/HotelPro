@@ -1,24 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import Header from "../../components/Header";
 import axios from "axios";
-import {
-  Pie,
-  PieChart,
-  Tooltip,
-  BarChart,
-  Rectangle,
-  CartesianGrid,
-  Bar,
-  XAxis,
-  YAxis,
-  Cell,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
 import { FaChartPie, FaMoneyBillWave, FaCalendarCheck } from "react-icons/fa";
 import { MdTrendingUp } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
+const OccupancyChart = lazy(()=> import("../../components/OccupancyChart"));
+const RevenueChart = lazy(()=>import("../../components/RevenueChart"));
+const BookingsChart = lazy(()=>import("../../components/BookingsChart"));
 
 function Dashboard() {
   const [occupancyPercentage, setOccupancyPercentage] = useState(null);
@@ -67,136 +56,6 @@ function Dashboard() {
     const res = await axios.get(`${API_BASE}/dashboard/bookings/monthly`);
     setBookings(res.data);
   };
-
-  const showOccupancy = () => (
-    <ResponsiveContainer width="100%" height={400}>
-      <PieChart>
-        <Pie
-          data={[
-            { name: "Occupied", value: occupancyPercentage },
-            { name: "Unoccupied", value: 100 - occupancyPercentage },
-          ]}
-          cx="50%"
-          cy="50%"
-          innerRadius={80}
-          outerRadius={140}
-          paddingAngle={5}
-          dataKey="value"
-        >
-          <Cell fill="#0d9488" />
-          <Cell fill="#ff474c" />
-        </Pie>
-        <Tooltip
-          contentStyle={{
-            backgroundColor: "rgba(255, 255, 255, 0.95)",
-            border: "2px solid #0d9488",
-            borderRadius: "12px",
-            padding: "10px",
-          }}
-        />
-        <Legend
-          verticalAlign="bottom"
-          height={36}
-          iconType="circle"
-          wrapperStyle={{ paddingTop: "20px" }}
-        />
-      </PieChart>
-    </ResponsiveContainer>
-  );
-
-  const showRevenue = () => (
-    <ResponsiveContainer width="100%" height={400}>
-      <BarChart
-        data={monthlyRevenue}
-        margin={{
-          top: 20,
-          right: 30,
-          left: 20,
-          bottom: 20,
-        }}
-      >
-        <defs>
-          <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#0d9488" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#14b8a6" stopOpacity={0.3} />
-          </linearGradient>
-        </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-        <XAxis
-          dataKey="month"
-          tick={{ fill: "#6b7280", fontSize: 12 }}
-          tickLine={false}
-        />
-        <YAxis
-          tick={{ fill: "#6b7280", fontSize: 12 }}
-          tickLine={false}
-          axisLine={false}
-        />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: "rgba(255, 255, 255, 0.95)",
-            border: "2px solid #0d9488",
-            borderRadius: "12px",
-            padding: "10px",
-          }}
-          cursor={{ fill: "rgba(13, 148, 136, 0.1)" }}
-        />
-        <Bar
-          dataKey="revenue"
-          fill="url(#colorRevenue)"
-          radius={[8, 8, 0, 0]}
-          activeBar={<Rectangle fill="#f59e0b" stroke="#d97706" />}
-        />
-      </BarChart>
-    </ResponsiveContainer>
-  );
-
-  const showBookings = () => (
-    <ResponsiveContainer width="100%" height={400}>
-      <BarChart
-        data={bookings}
-        margin={{
-          top: 20,
-          right: 30,
-          left: 20,
-          bottom: 20,
-        }}
-      >
-        <defs>
-          <linearGradient id="colorBookings" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#059669" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#10b981" stopOpacity={0.3} />
-          </linearGradient>
-        </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-        <XAxis
-          dataKey="period"
-          tick={{ fill: "#6b7280", fontSize: 12 }}
-          tickLine={false}
-        />
-        <YAxis
-          tick={{ fill: "#6b7280", fontSize: 12 }}
-          tickLine={false}
-          axisLine={false}
-        />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: "rgba(255, 255, 255, 0.95)",
-            border: "2px solid #059669",
-            borderRadius: "12px",
-            padding: "10px",
-          }}
-          cursor={{ fill: "rgba(5, 150, 105, 0.1)" }}
-        />
-        <Bar
-          dataKey="count"
-          fill="url(#colorBookings)"
-          radius={[8, 8, 0, 0]}
-          activeBar={<Rectangle fill="#f59e0b" stroke="#d97706" />}
-        />
-      </BarChart>
-    </ResponsiveContainer>
-  );
 
   useEffect(() => {
     fetchOccupancy();
@@ -259,7 +118,7 @@ function Dashboard() {
                   </span>
                 )}
               </div>
-              <h3
+              <h2
                 className={`text-lg font-semibold mb-2 ${
                   currentGraph === "occupancy"
                     ? "text-teal-100"
@@ -267,7 +126,7 @@ function Dashboard() {
                 }`}
               >
                 Occupancy Rate
-              </h3>
+              </h2>
               <p className="text-4xl font-bold">
                 {occupancyPercentage !== null
                   ? `${occupancyPercentage}%`
@@ -307,7 +166,7 @@ function Dashboard() {
                   </span>
                 )}
               </div>
-              <h3
+              <h2
                 className={`text-lg font-semibold mb-2 ${
                   currentGraph === "revenue"
                     ? "text-emerald-100"
@@ -315,7 +174,7 @@ function Dashboard() {
                 }`}
               >
                 Total Revenue
-              </h3>
+              </h2>
               <p className="text-4xl font-bold">
                 {totalRevenue !== null
                   ? `₹${totalRevenue.toLocaleString()}`
@@ -355,7 +214,7 @@ function Dashboard() {
                   </span>
                 )}
               </div>
-              <h3
+              <h2
                 className={`text-lg font-semibold mb-2 ${
                   currentGraph === "bookings"
                     ? "text-blue-100"
@@ -363,7 +222,7 @@ function Dashboard() {
                 }`}
               >
                 Bookings ({formattedMonth})
-              </h3>
+              </h2>
               <p className="text-4xl font-bold">
                 {monthCount !== null ? monthCount : "Loading..."}
               </p>
@@ -393,9 +252,9 @@ function Dashboard() {
             </h2>
 
             <div className="flex justify-center items-center">
-              {currentGraph === "occupancy" && showOccupancy()}
-              {currentGraph === "revenue" && showRevenue()}
-              {currentGraph === "bookings" && showBookings()}
+              {currentGraph === "occupancy" && <Suspense fallback={<div>Loading…</div>}><OccupancyChart occupancyPercentage={occupancyPercentage}/></Suspense>}
+              {currentGraph === "revenue" && <Suspense fallback={<div>Loading…</div>}><RevenueChart monthlyRevenue={monthlyRevenue}/></Suspense>}
+              {currentGraph === "bookings" && <Suspense fallback={<div>Loading…</div>}><BookingsChart bookings={bookings}/></Suspense>}
             </div>
           </div>
         </div>

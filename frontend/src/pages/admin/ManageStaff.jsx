@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import StaffCard from "../../components/StaffCard";
 import axios from "axios";
-import { Circles } from "react-loading-icons";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useSearchParams } from "react-router-dom";
 import { FaUserTie, FaPlus } from "react-icons/fa";
-import Swal from "sweetalert2";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
 
 function ManageStaff() {
@@ -29,6 +27,8 @@ function ManageStaff() {
   };
 
   const handleFire = async (id, name) => {
+    const { default: Swal } = await import("sweetalert2");
+
     const result = await Swal.fire({
       title: `Fire ${name}?`,
       text: "This will permanently remove the employee from the system.",
@@ -83,7 +83,9 @@ function ManageStaff() {
                 <FaUserTie className="text-teal-600" />
                 Manage Staff
               </h1>
-              <p className="text-gray-600 mt-2">View and manage hotel employees</p>
+              <p className="text-gray-600 mt-2">
+                View and manage hotel employees
+              </p>
             </div>
             <Link
               to="/admin/editaddstaff?for=add"
@@ -110,7 +112,22 @@ function ManageStaff() {
               {staff.length === 0 ? (
                 <div className="py-16">
                   {loading ? (
-                    <Circles stroke="#0d9488" className="w-16 h-16 block mx-auto" />
+                    <svg
+                      className="animate-spin h-5 w-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeDasharray="60"
+                        strokeDashoffset="15"
+                        strokeLinecap="round"
+                      />
+                    </svg>
                   ) : (
                     <div className="text-center">
                       <FaUserTie className="w-16 h-16 mx-auto text-gray-300 mb-4" />
@@ -137,14 +154,16 @@ function ManageStaff() {
                       action={
                         <div className="flex gap-3 justify-center">
                           <Link
-                            to = {`/admin/editaddstaff?for=edit&id=${employee.id}&name=${employee.name}&role=${employee.role}&phone=${employee.phone}&shift=${employee.shift}`}
-                            className="px-5 cursor-pointer py-2 rounded-lg bg-blue-500 text-white font-semibold hover:bg-blue-600 hover:scale-105 active:scale-95 transition-all duration-300 shadow-md"
+                            to={`/admin/editaddstaff?for=edit&id=${employee.id}&name=${employee.name}&role=${employee.role}&phone=${employee.phone}&shift=${employee.shift}`}
+                            className="px-5 cursor-pointer py-2 rounded-lg bg-blue-600 bg-opacity-100 text-white font-semibold hover:bg-blue-600 hover:scale-105 active:scale-95 transition-all duration-300 shadow-md"
                           >
                             Edit
                           </Link>
                           <button
-                            onClick={() => handleFire(employee.id, employee.name)}
-                            className="cursor-pointer px-5 py-2 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600 hover:scale-105 active:scale-95 transition-all duration-300 shadow-md"
+                            onClick={() =>
+                              handleFire(employee.id, employee.name)
+                            }
+                            className="cursor-pointer px-5 py-2 rounded-lg bg-red-600 bg-opacity-100 text-white font-semibold hover:bg-red-600 hover:scale-105 active:scale-95 transition-all duration-300 shadow-md"
                           >
                             Fire
                           </button>

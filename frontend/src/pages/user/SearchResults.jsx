@@ -1,10 +1,9 @@
 import Header from "../../components/Header";
-import { useState, useEffect } from "react";
-import RoomCard from "../../components/Roomcard";
+import { useState, useEffect, lazy, Suspense } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { Circles } from "react-loading-icons";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
+const RoomCard = lazy(() => import("../../components/RoomCard"));
 
 function SearchResults() {
   const [rooms, setRooms] = useState([]);
@@ -16,7 +15,9 @@ function SearchResults() {
     setLoading(true);
     try {
       if (roomType === null) {
-        const res = await axios.get(`${API_BASE}/rooms/available?price=${maxPrice}`);
+        const res = await axios.get(
+          `${API_BASE}/rooms/available?price=${maxPrice}`
+        );
         setRooms(res.data);
       } else {
         const res = await axios.get(
@@ -26,8 +27,9 @@ function SearchResults() {
       }
     } catch (err) {
       console.error(err);
-      if (!toast.isActive(1)) toast.error("Couldn't Get Rooms, Please Try Again", {toastId: 1});
-    } finally{
+      if (!toast.isActive(1))
+        toast.error("Couldn't Get Rooms, Please Try Again", { toastId: 1 });
+    } finally {
       setLoading(false);
     }
   };
@@ -51,11 +53,15 @@ function SearchResults() {
           </h2>
 
           <div className="flex flex-col gap-2 flex-1">
-            <label className="text-sm font-semibold text-gray-700 tracking-wide">
+            <label
+              htmlFor="priceRange"
+              className="text-sm font-semibold text-gray-700 tracking-wide"
+            >
               Maximum Price:{" "}
               <span className="text-teal-600 font-bold">₹{maxPrice}</span>
             </label>
             <input
+              id="priceRange"
               className="cursor-pointer w-full h-2 bg-gradient-to-r from-teal-200 to-teal-400 rounded-full appearance-none accent-teal-600 hover:accent-teal-700 transition-all"
               type="range"
               max="30000"
@@ -137,13 +143,31 @@ function SearchResults() {
           </button>
         </div>
 
-          {rooms.length === 0 ?
-          (
-            loading? <Circles stroke = "#085C5C" className="w-16 h-16 block mx-auto "/>:
+        {rooms.length === 0 ? (
+          loading ? (
+            <svg
+              className="animate-spin h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeDasharray="60"
+                strokeDashoffset="15"
+                strokeLinecap="round"
+              />
+            </svg>
+          ) : (
             <p className="text-gray-600 text-lg col-span-3 text-center font-medium">
               No rooms found for the selected filters.
             </p>
-          ) : (
+          )
+        ) : (
+          <Suspense>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-4/5 max-w-7xl">
               {rooms.map((room) => (
                 <RoomCard
@@ -151,12 +175,12 @@ function SearchResults() {
                   room_no={room.room_no}
                   room_type={room.type}
                   room_price={room.price}
-                  room_id = {room.id}
+                  room_id={room.id}
                 />
               ))}
             </div>
-          )}
-
+          </Suspense>
+        )}
       </div>
     </>
   );

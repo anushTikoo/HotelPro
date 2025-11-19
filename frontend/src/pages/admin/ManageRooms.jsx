@@ -4,10 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { Circles } from "react-loading-icons";
 import { FaPlus, FaBed } from "react-icons/fa";
 import { MdMeetingRoom } from "react-icons/md";
-import Swal from "sweetalert2";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
 
 const ManageRooms = () => {
@@ -31,6 +29,8 @@ const ManageRooms = () => {
   };
 
   const handleDelete = async (id, no) => {
+    const { default: Swal } = await import("sweetalert2");
+
     const result = await Swal.fire({
       title: `Delete Room ${no}?`,
       text: "This action cannot be undone!",
@@ -47,8 +47,10 @@ const ManageRooms = () => {
         popup: "rounded-2xl shadow-2xl border-2 border-gray-200",
         title: "text-2xl font-bold text-gray-800",
         htmlContainer: "text-gray-600",
-        confirmButton: "rounded-xl px-6 py-3 font-semibold shadow-lg hover:scale-105 transition-all duration-300",
-        cancelButton: "rounded-xl px-6 py-3 font-semibold shadow-lg hover:scale-105 transition-all duration-300",
+        confirmButton:
+          "rounded-xl px-6 py-3 font-semibold shadow-lg hover:scale-105 transition-all duration-300",
+        cancelButton:
+          "rounded-xl px-6 py-3 font-semibold shadow-lg hover:scale-105 transition-all duration-300",
       },
     });
 
@@ -56,10 +58,10 @@ const ManageRooms = () => {
       try {
         await axios.delete(`${API_BASE}/rooms/${id}`);
         setRooms((prev) => prev.filter((item) => item.id !== id));
-        toast.success(`Room ${no} Deleted Ducessfully`)
+        toast.success(`Room ${no} Deleted Ducessfully`);
       } catch (err) {
-          if (err.response?.status === 409) toast.error(err.response.data.detail)
-          else {
+        if (err.response?.status === 409) toast.error(err.response.data.detail);
+        else {
           toast.error("Unexpected Error");
           console.error(err);
         }
@@ -123,10 +125,22 @@ const ManageRooms = () => {
               {rooms.length === 0 ? (
                 <div className="py-16">
                   {loading ? (
-                    <Circles
-                      stroke="#0d9488"
-                      className="w-16 h-16 block mx-auto"
-                    />
+                    <svg
+                      className="animate-spin h-5 w-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeDasharray="60"
+                        strokeDashoffset="15"
+                        strokeLinecap="round"
+                      />
+                    </svg>
                   ) : (
                     <div className="text-center">
                       <FaBed className="w-16 h-16 mx-auto text-gray-300 mb-4" />
@@ -159,13 +173,13 @@ const ManageRooms = () => {
                                 room.price
                               )
                             }
-                            className="px-5 cursor-pointer py-2 rounded-lg bg-blue-500 text-white font-semibold hover:bg-blue-600 hover:scale-105 active:scale-95 transition-all duration-300 shadow-md"
+                            className="px-5 cursor-pointer py-2 rounded-lg bg-blue-600 bg-opacity-100 text-white font-semibold hover:bg-blue-600 hover:scale-105 active:scale-95 transition-all duration-300 shadow-md"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDelete(room.id, room.room_no)}
-                            className="cursor-pointer px-5 py-2 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600 hover:scale-105 active:scale-95 transition-all duration-300 shadow-md"
+                            className="cursor-pointer px-5 py-2 rounded-lg bg-red-600 bg-opacity-100 text-white font-semibold hover:bg-red-600 hover:scale-105 active:scale-95 transition-all duration-300 shadow-md"
                           >
                             Delete
                           </button>

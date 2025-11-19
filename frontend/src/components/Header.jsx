@@ -1,5 +1,4 @@
 import { useNavigate, Link } from "react-router-dom";
-import companyLogo from "../assets/Logo.png";
 import { AuthContext } from "../auth/Authorization";
 import { useContext } from "react";
 
@@ -22,7 +21,7 @@ function Header() {
     <header className="sticky top-0 z-50">
       <div className="bg-gradient-to-r from-teal-700 via-teal-600 to-teal-700 shadow-2xl backdrop-blur-lg flex justify-between items-center h-18 px-6 pl-1">
         <img
-          src={companyLogo}
+          src="/images/Logo.avif"
           onClick={handleLogoClick}
           alt="CompanyLogo"
           className="w-40 h-auto cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95"

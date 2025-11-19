@@ -5,8 +5,6 @@ import { MdLogout } from "react-icons/md";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { Circles } from "react-loading-icons";
-import Swal from "sweetalert2";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
 
 function ManageGuests() {
@@ -27,6 +25,8 @@ function ManageGuests() {
   };
 
   const handleCheckout = async (id, no) => {
+    const { default: Swal } = await import("sweetalert2"); //Lazy loading for a JS function
+
     const result = await Swal.fire({
       title: `Check Out Room ${no}?`,
       text: "The guest will be checked out and the room will become available.",
@@ -43,8 +43,10 @@ function ManageGuests() {
         popup: "rounded-2xl shadow-2xl border-2 border-gray-200",
         title: "text-2xl font-bold text-gray-800",
         htmlContainer: "text-gray-600",
-        confirmButton: "rounded-xl px-6 py-3 font-semibold shadow-lg hover:scale-105 transition-all duration-300",
-        cancelButton: "rounded-xl px-6 py-3 font-semibold shadow-lg hover:scale-105 transition-all duration-300",
+        confirmButton:
+          "rounded-xl px-6 py-3 font-semibold shadow-lg hover:scale-105 transition-all duration-300",
+        cancelButton:
+          "rounded-xl px-6 py-3 font-semibold shadow-lg hover:scale-105 transition-all duration-300",
       },
     });
 
@@ -76,11 +78,12 @@ function ManageGuests() {
               <FaUserFriends className="text-teal-600" />
               Manage Guests
             </h1>
-            <p className="text-gray-600 mt-2">View and manage all guest bookings</p>
+            <p className="text-gray-600 mt-2">
+              View and manage all guest bookings
+            </p>
           </div>
 
           <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
-
             <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200 px-8 py-4">
               <UserCard
                 user="Guest Name"
@@ -96,10 +99,22 @@ function ManageGuests() {
               {bookings.length === 0 ? (
                 <div className="py-16">
                   {loading ? (
-                    <Circles
-                      stroke="#0d9488"
-                      className="w-16 h-16 block mx-auto"
-                    />
+                    <svg
+                      className="animate-spin h-5 w-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeDasharray="60"
+                        strokeDashoffset="15"
+                        strokeLinecap="round"
+                      />
+                    </svg>
                   ) : (
                     <div className="text-center">
                       <FaUserFriends className="w-16 h-16 mx-auto text-gray-300 mb-4" />
@@ -121,14 +136,20 @@ function ManageGuests() {
                     <UserCard
                       user={booking.user_name}
                       room={`Room ${booking.room_no}`}
-                      dates={`${new Date(booking.checkin).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} → ${new Date(booking.checkout).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`}
+                      dates={`${new Date(booking.checkin).toLocaleDateString(
+                        "en-GB",
+                        { day: "numeric", month: "short" }
+                      )} → ${new Date(booking.checkout).toLocaleDateString(
+                        "en-GB",
+                        { day: "numeric", month: "short" }
+                      )}`}
                       people={booking.total_people}
                       checkout={
                         <button
                           onClick={() =>
                             handleCheckout(booking.id, booking.room_no)
                           }
-                          className="group/btn cursor-pointer flex items-center justify-center gap-2 px-4 py-2 rounded-lg border-2 border-teal-600 text-teal-600 font-semibold hover:bg-teal-600 hover:text-white hover:scale-105 active:scale-95 transition-all duration-300"
+                          className="group/btn cursor-pointer flex items-center justify-center gap-2 px-4 py-2 rounded-lg border-2 border-teal-600 text-teal-700 font-semibold hover:bg-teal-600 hover:text-white hover:scale-105 active:scale-95 transition-all duration-300"
                         >
                           <MdLogout className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
                           Check Out
