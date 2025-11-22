@@ -46,14 +46,14 @@ function Home() {
         <ToastContainer position="top-center" autoClose={2500} />
         <img
           className="absolute inset-0 w-full h-full object-cover object-center"
-          src="/images/background.avif"
+          src="/images/background.webp"
           fetchPriority="high"
           alt="background image"
         ></img>
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
 
         <div className="relative flex flex-col gap-16 justify-center items-center w-full h-full">
-          <h1 className="font-extrabold text-white text-8xl drop-shadow-2xl animate-fade-in text-center">
+          <h1 className="font-extrabold text-white text-8xl drop-shadow-2xl text-center">
             Find Your Next{" "}
             <span className="bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent">
               Stay

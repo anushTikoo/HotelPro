@@ -2,7 +2,6 @@ import Header from "../../components/Header";
 import UserCard from "../../components/UserCard";
 import { FaUserFriends } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
@@ -14,8 +13,12 @@ function ManageGuests() {
   const getBookings = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_BASE}/bookings/`);
-      setBookings(res.data);
+      const res = await fetch(`${API_BASE}/bookings/`);
+
+      if (!res.ok) throw new Error("Couldn't Get Bookings");
+
+      const data = await res.json();
+      setBookings(data);
     } catch (err) {
       console.error(err);
       toast.error("Couldn't Get Bookings");
@@ -52,7 +55,10 @@ function ManageGuests() {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`${API_BASE}/bookings/${id}`);
+        const res = await fetch(`${API_BASE}/bookings/${id}`, { method: "DELETE" });
+
+        if (!res.ok) throw new Error("Couldn't Check Out");
+
         setBookings((prev) => prev.filter((booking) => booking.id !== id));
         toast.success(`Successfully Checked Out Room ${no}`);
       } catch (err) {

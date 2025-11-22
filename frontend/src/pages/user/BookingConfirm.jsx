@@ -10,7 +10,6 @@ import {
   FaRupeeSign,
 } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
-import axios from "axios";
 import { AuthContext } from "../../auth/Authorization";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
 
@@ -41,12 +40,18 @@ function BookingConfirm() {
 
   const handleConfirm = async () => {
     try {
-      await axios.post(`${API_BASE}/bookings/`, {
-        user_id: user.id,
-        room_id: room_id,
-        checkin: formatDate(checkIn),
-        checkout: formatDate(checkOut),
-        total_people: data.people,
+      await fetch(`${API_BASE}/bookings/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          user_id: user.id,
+          room_id: room_id,
+          checkin: formatDate(checkIn),
+          checkout: formatDate(checkOut),
+          total_people: data.people,
+        })
       });
       navigate("/guest/home?booking=true");
     } catch (err) {

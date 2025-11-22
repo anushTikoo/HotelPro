@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 
 function RoomCard({ room_no, room_type, room_price, room_id }) {
   const handleType = () => {
-    if (room_type === "single") return "/images/single_room.avif";
-    else if (room_type === "double") return "/images/double_room.avif";
-    else return "/images/suite.avif";
+    if (room_type === "single") return "/images/single_room.webp";
+    else if (room_type === "double") return "/images/double_room.webp";
+    else return "/images/suite.webp";
   }
 
   return (

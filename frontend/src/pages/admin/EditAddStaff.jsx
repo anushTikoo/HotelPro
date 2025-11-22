@@ -1,9 +1,15 @@
 import Header from "../../components/Header";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { FaUserTie, FaSave, FaPlus, FaPhone, FaBriefcase, FaIdCard } from "react-icons/fa";
+import {
+  FaUserTie,
+  FaSave,
+  FaPlus,
+  FaPhone,
+  FaBriefcase,
+  FaIdCard,
+} from "react-icons/fa";
 import { WiDaySunny, WiNightClear, WiDaySunnyOvercast } from "react-icons/wi";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
 
@@ -34,19 +40,37 @@ function EditAddStaff() {
       return;
     }
     try {
-      await axios.post(`${API_BASE}/staff/`, {
-        name: name,
-        role: role,
-        phone: phone,
-        shift: shift,
+      const res = await fetch(`${API_BASE}/staff/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          role: role,
+          phone: phone,
+          shift: shift,
+        }),
       });
+
+      if (!res.ok) {
+        let msg = "Failed To Add Staff";
+
+        try {
+          const { detail } = await res.json();
+          if (res.status === 400 && detail) msg = detail;
+        } catch {
+          // server didn't return JSON
+        }
+
+        toast.error(msg);
+        return;
+      }
+
       navigate("/admin/managestaff?action=add");
     } catch (err) {
-        if (err.response?.status === 400) toast.warn(err.response.data.detail);
-        else {
-          console.error(err);
-          if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
-        }
+      console.error(err);
+      if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
     }
   };
 
@@ -56,19 +80,37 @@ function EditAddStaff() {
       return;
     }
     try {
-      await axios.put(`${API_BASE}/staff/${id}`, {
-        name: name,
-        role: role,
-        phone: phone,
-        shift: shift,
+      const res = await fetch(`${API_BASE}/staff/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          role: role,
+          phone: phone,
+          shift: shift,
+        }),
       });
+
+      if (!res.ok) {
+        let msg = "Failed To Edit Staff";
+
+        try {
+          const { detail } = await res.json();
+          if (res.status === 400 && detail) msg = detail;
+        } catch {
+          // server didn't return JSON
+        }
+
+        toast.error(msg);
+        return;
+      }
+
       navigate("/admin/managestaff?action=update");
     } catch (err) {
-        if (err.response?.status === 400) toast.warn(err.response.data.detail);
-        else {
-          console.error(err);
-          if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
-        }
+      console.error(err);
+      if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
     }
   };
 
@@ -77,9 +119,7 @@ function EditAddStaff() {
       <Header fetchPriority="high" />
       <ToastContainer autoClose={2500} position="top-center" />
       <main className="fixed inset-0 top-20 bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 flex items-center justify-center px-4 ">
-
         <div className="max-w-xl w-full bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
-
           <div className="bg-gradient-to-r from-teal-600 to-emerald-600 p-4 text-white">
             <h2 className="text-2xl font-bold flex items-center gap-2">
               <FaUserTie className="w-5 h-5" />
@@ -88,7 +128,6 @@ function EditAddStaff() {
           </div>
 
           <div className="p-5 space-y-4">
-
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">
                 Full Name
@@ -180,7 +219,9 @@ function EditAddStaff() {
 
             <div className="space-y-2 pt-2">
               <button
-                onClick={() => (action === "edit" ? handleEdit(id) : handleAdd())}
+                onClick={() =>
+                  action === "edit" ? handleEdit(id) : handleAdd()
+                }
                 className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-bold text-sm py-3 rounded-lg shadow-md hover:shadow-lg hover:from-teal-700 hover:to-emerald-700 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2"
               >
                 {action === "edit" ? (

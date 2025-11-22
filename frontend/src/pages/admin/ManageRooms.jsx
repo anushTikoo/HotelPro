@@ -1,7 +1,6 @@
 import Header from "../../components/Header";
 import AdminRoomCard from "../../components/AdminRoomCard";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { FaPlus, FaBed } from "react-icons/fa";
@@ -18,8 +17,12 @@ const ManageRooms = () => {
   const getRooms = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_BASE}/rooms/`);
-      setRooms(res.data);
+      const res = await fetch(`${API_BASE}/rooms/`);
+
+      if (!res.ok) throw new Error("Failed To Get Rooms");
+
+      const data = await res.json();
+      setRooms(data);
     } catch (err) {
       console.error(err);
       toast.error("Failed To Get Rooms");
@@ -56,15 +59,28 @@ const ManageRooms = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`${API_BASE}/rooms/${id}`);
+        const res = await fetch(`${API_BASE}/rooms/${id}`, {
+          method: "DELETE",
+        });
+
+        if (!res.ok) {
+          let msg = "Failed To Delete Room";
+
+          try {
+            const { detail } = await res.json();
+            if (res.status === 409 && detail) msg = detail;
+          } catch {
+            // server didn't return JSON
+          }
+
+          toast.error(msg);
+          return;
+        }
         setRooms((prev) => prev.filter((item) => item.id !== id));
         toast.success(`Room ${no} Deleted Ducessfully`);
       } catch (err) {
-        if (err.response?.status === 409) toast.error(err.response.data.detail);
-        else {
-          toast.error("Unexpected Error");
-          console.error(err);
-        }
+        toast.error("Unexpected Error");
+        console.error(err);
       }
     }
   };

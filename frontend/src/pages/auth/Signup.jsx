@@ -2,7 +2,6 @@ import { useEffect, useState, useContext } from "react";
 import Header from "../../components/Header";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
 import { AuthContext } from "../../auth/Authorization";
 import { FaUser, FaLock, FaCheckCircle } from "react-icons/fa";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
@@ -26,19 +25,33 @@ function Signup() {
     } else {
       setLoading(true);
       try {
-        const res = await axios.post(`${API_BASE}/auth/signup`, {
-          username: username,
-          password: password,
+        const res = await fetch(`${API_BASE}/auth/signup`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+          })
         });
+
+        if (!res.ok){
+          if (res.status === 400){
+            const errordata = await res.json();
+            toast.error(errordata.detail);
+          }else toast.error("Unexpected Error");
+          return;
+        }
+
+        const data = await res.json();
+
         navigate("/guest/home");
-        login(res.data);
+        login(data);
+
       } catch (err) {
-        if (err.response?.status === 400) {
-          toast.error(err.response.data.detail);
-        } else {
           console.error(err);
           toast.error("Unexpected Error");
-        }
       } finally {
         setLoading(false);
       }
@@ -63,7 +76,7 @@ function Signup() {
         <ToastContainer position="top-center" autoClose={2500} />
         <img
           className="absolute inset-0 w-full h-full object-cover object-center"
-          src="/images/background.avif"
+          src="/images/background.webp"
           fetchPriority="high"
           alt="background image"
         ></img>

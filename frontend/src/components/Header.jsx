@@ -21,7 +21,7 @@ function Header({fetchPriority}) {
     <header className="sticky top-0 z-50">
       <div className="bg-gradient-to-r from-teal-700 via-teal-600 to-teal-700 shadow-2xl backdrop-blur-lg flex justify-between items-center h-18 px-6 pl-1">
         <img
-          src="/images/Logo.avif"
+          src="/images/Logo.webp"
           onClick={handleLogoClick}
           fetchPriority={fetchPriority || undefined}
           alt="CompanyLogo"

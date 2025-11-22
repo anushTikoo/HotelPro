@@ -1,13 +1,14 @@
 import { useEffect, useState, lazy, Suspense } from "react";
 import Header from "../../components/Header";
-import axios from "axios";
 import { FaChartPie, FaMoneyBillWave, FaCalendarCheck } from "react-icons/fa";
 import { MdTrendingUp } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
-const OccupancyChart = lazy(()=> import("../../components/OccupancyChart.jsx"));
-const RevenueChart = lazy(()=>import("../../components/RevenueChart.jsx"));
-const BookingsChart = lazy(()=>import("../../components/BookingsChart.jsx"));
+const OccupancyChart = lazy(() =>
+  import("../../components/OccupancyChart.jsx")
+);
+const RevenueChart = lazy(() => import("../../components/RevenueChart.jsx"));
+const BookingsChart = lazy(() => import("../../components/BookingsChart.jsx"));
 
 function Dashboard() {
   const [occupancyPercentage, setOccupancyPercentage] = useState(null);
@@ -23,16 +24,14 @@ function Dashboard() {
   const [monthCount, setMonthCount] = useState(null);
   const [currentGraph, setCurrentGraph] = useState("occupancy");
 
-  useEffect(() => {
-    if (error) {
-      if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
-    }
-  }, [error]);
-
   const fetchOccupancy = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/dashboard/occupancy`);
-      setOccupancyPercentage(res.data.occupancy_percentage);
+      const res = await fetch(`${API_BASE}/dashboard/occupancy`);
+
+      if (!res.ok) throw new Error("Failed To Get Occupancy");
+
+      const data = await res.json();
+      setOccupancyPercentage(data.occupancy_percentage);
     } catch (err) {
       setError(true);
       console.error(err);
@@ -41,10 +40,14 @@ function Dashboard() {
 
   const fetchRevenue = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/dashboard/revenue`);
-      setMonthlyRevenue(res.data);
+      const res = await fetch(`${API_BASE}/dashboard/revenue`);
 
-      const total = res.data.reduce((sum, item) => sum + item.revenue, 0);
+      if (!res.ok) throw new Error("Failed To Get Revenue");
+
+      const data = await res.json();
+      setMonthlyRevenue(data);
+
+      const total = data.reduce((sum, item) => sum + item.revenue, 0);
       setTotalRevenue(total);
     } catch (err) {
       setError(true);
@@ -53,8 +56,17 @@ function Dashboard() {
   };
 
   const fetchMontlyBookings = async () => {
-    const res = await axios.get(`${API_BASE}/dashboard/bookings/monthly`);
-    setBookings(res.data);
+    try {
+      const res = await fetch(`${API_BASE}/dashboard/bookings/monthly`);
+
+      if (!res.ok) throw new Error("Failed To Get Monthly Bookings");
+
+      const data = await res.json();
+      setBookings(data);
+    } catch (err) {
+      setError(true);
+      console.error(err);
+    }
   };
 
   useEffect(() => {
@@ -64,10 +76,16 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
+    if (error) {
+      if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
+    }
+  }, [error]);
+
+  useEffect(() => {
     if (bookings.length) {
       const monthData = bookings.find((b) => b.period === formattedMonth);
       setMonthCount(monthData ? monthData.count : 0);
-    }else{
+    } else {
       setMonthCount(0);
     }
   }, [bookings, formattedMonth]);
@@ -252,9 +270,21 @@ function Dashboard() {
             </h2>
 
             <div className="flex justify-center items-center">
-              {currentGraph === "occupancy" && <Suspense fallback={<div>Loading…</div>}><OccupancyChart occupancyPercentage={occupancyPercentage}/></Suspense>}
-              {currentGraph === "revenue" && <Suspense fallback={<div>Loading…</div>}><RevenueChart monthlyRevenue={monthlyRevenue}/></Suspense>}
-              {currentGraph === "bookings" && <Suspense fallback={<div>Loading…</div>}><BookingsChart bookings={bookings}/></Suspense>}
+              {currentGraph === "occupancy" && (
+                <Suspense fallback={<div>Loading…</div>}>
+                  <OccupancyChart occupancyPercentage={occupancyPercentage} />
+                </Suspense>
+              )}
+              {currentGraph === "revenue" && (
+                <Suspense fallback={<div>Loading…</div>}>
+                  <RevenueChart monthlyRevenue={monthlyRevenue} />
+                </Suspense>
+              )}
+              {currentGraph === "bookings" && (
+                <Suspense fallback={<div>Loading…</div>}>
+                  <BookingsChart bookings={bookings} />
+                </Suspense>
+              )}
             </div>
           </div>
         </div>

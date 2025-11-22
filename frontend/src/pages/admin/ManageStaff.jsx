@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import StaffCard from "../../components/StaffCard";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useSearchParams } from "react-router-dom";
 import { FaUserTie, FaPlus } from "react-icons/fa";
@@ -16,8 +15,12 @@ function ManageStaff() {
   const getStaff = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_BASE}/staff/`);
-      setStaff(res.data);
+      const res = await fetch(`${API_BASE}/staff/`);
+
+      if (!res.ok) throw new Error("Failed To Get Staff");
+
+      const data = await res.json();
+      setStaff(data);
     } catch (err) {
       console.error(err);
       if (!toast.isActive(1)) toast.error("Couldn't Get Staff", { toastId: 1 });
@@ -54,7 +57,10 @@ function ManageStaff() {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`${API_BASE}/staff/${id}`);
+        const res = await fetch(`${API_BASE}/staff/${id}`, { method: "DELETE" });
+
+        if (!res.ok) throw new Error("Couldn't Fire Employee");
+
         setStaff((prev) => prev.filter((item) => item.id !== id));
         toast.success(`Successfully Fired ${name}`);
       } catch (err) {

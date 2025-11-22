@@ -2,7 +2,6 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
 import { FaDoorOpen, FaRupeeSign, FaSave, FaPlus } from "react-icons/fa";
 import { MdConstruction } from "react-icons/md";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
@@ -34,19 +33,37 @@ function EditAddRoom() {
       return;
     }
     try {
-      await axios.put(`${API_BASE}/rooms/${id}`, {
-        room_no: room_no,
-        type: room_type,
-        status: room_status,
-        price: room_price,
+      const res = await fetch(`${API_BASE}/rooms/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          room_no: room_no,
+          type: room_type,
+          status: room_status,
+          price: room_price,
+        }),
       });
+
+      if (!res.ok) {
+        let msg = "Failed To Edit Room";
+
+        try {
+          const { detail } = await res.json();
+          if (res.status === 400 && detail) msg = detail;
+        } catch {
+          // server didn't return JSON
+        }
+
+        toast.error(msg);
+        return;
+      }
+
       navigate("/admin/managerooms?action=update");
     } catch (err) {
-        if (err.response?.status === 400) toast.warn(err.response.data.detail);
-        else{
-          console.error(err);
-          if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
-        }
+      console.error(err);
+      if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
     }
   };
 
@@ -56,18 +73,36 @@ function EditAddRoom() {
       return;
     }
     try {
-      await axios.post(`${API_BASE}/rooms/`, {
-        room_no: room_no,
-        type: room_type,
-        price: room_price,
+      const res = await fetch(`${API_BASE}/rooms/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          room_no: room_no,
+          type: room_type,
+          price: room_price,
+        }),
       });
+
+      if (!res.ok) {
+        let msg = "Failed To Add Room";
+
+        try {
+          const { detail } = await res.json();
+          if (res.status === 400 && detail) msg = detail;
+        } catch {
+          // server didn't return JSON
+        }
+
+        toast.error(msg);
+        return;
+      }
+
       navigate("/admin/managerooms?action=add");
     } catch (err) {
-        if (err.response?.status === 400) toast.warn(err.response.data.detail);
-        else {
-          console.error(err);
-          if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
-        }
+      console.error(err);
+      if (!toast.isActive(1)) toast.error("Unexpected Error", { toastId: 1 });
     }
   };
 
@@ -76,9 +111,7 @@ function EditAddRoom() {
       <Header fetchPriority="high" />
       <ToastContainer autoClose={2500} position="top-center" />
       <main className="fixed inset-0 top-20 bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 flex items-center justify-center px-4">
-
         <div className="max-w-xl w-full bg-white/95 rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
-
           <div className="bg-gradient-to-r from-teal-600 to-emerald-600 p-4 text-white">
             <h2 className="text-2xl font-bold flex items-center gap-2">
               <FaDoorOpen className="w-5 h-5" />
@@ -87,7 +120,6 @@ function EditAddRoom() {
           </div>
 
           <div className="p-5 space-y-4">
-
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">
                 Room Number
@@ -120,7 +152,7 @@ function EditAddRoom() {
                   onClick={() => setType("double")}
                   className={`py-2 px-3 text-sm rounded-lg font-semibold border-2 transition-all duration-300 ${
                     room_type === "double"
-                      ? "bg-linaer-to-r from-teal-600 to-emerald-600 text-white border-teal-600 shadow-md scale-105"
+                      ? "bg-gradient-to-r from-teal-600 to-emerald-600 text-white border-teal-600 shadow-md scale-105"
                       : "bg-gray-100 text-gray-700 border-gray-300 hover:border-teal-400"
                   }`}
                 >

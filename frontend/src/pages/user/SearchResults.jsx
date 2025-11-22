@@ -1,6 +1,5 @@
 import Header from "../../components/Header";
 import { useState, useEffect, lazy, Suspense } from "react";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 const API_BASE = import.meta.env.VITE_BACKEND_API_BASEURL;
 const RoomCard = lazy(() => import("../../components/RoomCard.jsx"));
@@ -14,17 +13,17 @@ function SearchResults() {
   const handleFilter = async () => {
     setLoading(true);
     try {
-      if (roomType === null) {
-        const res = await axios.get(
-          `${API_BASE}/rooms/available?price=${maxPrice}`
-        );
-        setRooms(res.data);
-      } else {
-        const res = await axios.get(
-          `${API_BASE}/rooms/available?price=${maxPrice}&type=${roomType}`
-        );
-        setRooms(res.data);
-      }
+      const url =
+        roomType === null
+        ? `${API_BASE}/rooms/available?price=${maxPrice}`
+        : `${API_BASE}/rooms/available?price=${maxPrice}&type=${roomType}`;
+
+      const res = await fetch(url);
+
+      if (!res.ok) throw new Error("Failed To Fetch Rooms");
+
+      const data = await res.json();
+      setRooms(data);
     } catch (err) {
       console.error(err);
       if (!toast.isActive(1))
